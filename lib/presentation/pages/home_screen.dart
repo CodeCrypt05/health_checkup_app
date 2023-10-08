@@ -1,10 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:health_checkup_app/presentation/theme/app_colors.dart';
 import 'package:health_checkup_app/presentation/widget/home_screen_widgets/grideview_widget.dart';
 import 'package:health_checkup_app/presentation/widget/home_screen_widgets/listview_widget.dart';
-import 'package:health_checkup_app/theme/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

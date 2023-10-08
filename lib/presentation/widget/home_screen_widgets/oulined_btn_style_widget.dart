@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:health_checkup_app/theme/app_colors.dart';
+import 'package:health_checkup_app/presentation/theme/app_colors.dart';
 
 class OutlinedBtnStyleWidget {
   final customButtonStyle = OutlinedButton.styleFrom(

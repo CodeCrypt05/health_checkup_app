@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:health_checkup_app/presentation/theme/app_colors.dart';
 import 'package:health_checkup_app/presentation/widget/home_screen_widgets/oulined_btn_style_widget.dart';
-import 'package:health_checkup_app/theme/app_colors.dart';
 
 class LabTestsCardWidget extends StatelessWidget {
   LabTestsCardWidget({super.key});

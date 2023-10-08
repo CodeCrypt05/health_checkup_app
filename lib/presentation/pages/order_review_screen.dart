@@ -3,8 +3,8 @@ import 'package:health_checkup_app/presentation/theme/app_colors.dart';
 import 'package:health_checkup_app/presentation/widget/home_screen_widgets/oulined_btn_style_widget.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class MyCartScreen extends StatelessWidget {
-  MyCartScreen({super.key});
+class OrderReviewScreen extends StatelessWidget {
+  OrderReviewScreen({super.key});
 
   OutlinedBtnStyleWidget outlinedBtnStyleWidget = OutlinedBtnStyleWidget();
   int? selectedOption;
@@ -51,7 +51,7 @@ class MyCartScreen extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: size.height * 0.04,
-      margin: const EdgeInsets.only(left: 20, right: 20, top: 14),
+      margin: EdgeInsets.only(left: 20, right: 20, top: 14),
       child: Text(
         'Order review',
         style: TextStyle(
@@ -70,11 +70,11 @@ class MyCartScreen extends StatelessWidget {
           color: Colors.grey.shade200,
           width: 1.0,
         ),
-        borderRadius: const BorderRadius.all(
+        borderRadius: BorderRadius.all(
           Radius.circular(6),
         ),
       ),
-      margin: const EdgeInsets.only(top: 8, left: 20, right: 20),
+      margin: EdgeInsets.only(top: 8, left: 20, right: 20),
       height: size.height * 0.24,
       width: double.infinity,
       child: Column(
@@ -100,7 +100,7 @@ class MyCartScreen extends StatelessWidget {
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(top: 8, left: 24, right: 24),
+            margin: EdgeInsets.only(top: 8, left: 24, right: 24),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,7 +195,7 @@ class MyCartScreen extends StatelessWidget {
           Radius.circular(6),
         ),
       ),
-      margin: const EdgeInsets.only(top: 8, left: 20, right: 20),
+      margin: EdgeInsets.only(top: 8, left: 20, right: 20),
       height: size.height * 0.1,
       width: double.infinity,
       child: Container(
@@ -249,7 +249,7 @@ class MyCartScreen extends StatelessWidget {
           Radius.circular(6),
         ),
       ),
-      margin: const EdgeInsets.only(top: 8, left: 20, right: 20),
+      margin: EdgeInsets.only(top: 8, left: 20, right: 20),
       height: size.height * 0.18,
       width: double.infinity,
       child: Container(
@@ -369,7 +369,7 @@ class MyCartScreen extends StatelessWidget {
           Radius.circular(6),
         ),
       ),
-      margin: const EdgeInsets.only(top: 8, left: 20, right: 20),
+      margin: EdgeInsets.only(top: 8, left: 20, right: 20),
       height: size.height * 0.16,
       width: double.infinity,
       child: Container(
@@ -393,7 +393,7 @@ class MyCartScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Hard copy of reports',
                       style: TextStyle(
                         fontSize: 16,
@@ -432,7 +432,7 @@ class MyCartScreen extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: size.height * 0.06,
-      margin: const EdgeInsets.only(top: 16, left: 20, right: 20),
+      margin: EdgeInsets.only(top: 16, left: 20, right: 20),
       child: ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
