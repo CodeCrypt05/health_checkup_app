@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:health_checkup_app/database/db_helper.dart';
+import 'package:health_checkup_app/models/popular_tests.dart';
 import 'package:health_checkup_app/presentation/theme/app_colors.dart';
 import 'package:health_checkup_app/presentation/widget/home_screen_widgets/oulined_btn_style_widget.dart';
+import 'package:health_checkup_app/provider/cart_provider.dart';
+import 'package:provider/provider.dart';
 
 class LabTestsCardWidget extends StatelessWidget {
-  LabTestsCardWidget({super.key});
+  LabTestsCardWidget({
+    super.key,
+    required this.popularLabTests,
+  });
 
-  OutlinedBtnStyleWidget outlinedBtnStyleWidget = OutlinedBtnStyleWidget();
+  final OutlinedBtnStyleWidget outlinedBtnStyleWidget =
+      OutlinedBtnStyleWidget();
+
+  final PopularLabTests popularLabTests;
+  DBHelper dbHelper = DBHelper();
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<CartProvider>(context);
     return GridTile(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -25,8 +38,8 @@ class LabTestsCardWidget extends StatelessWidget {
             alignment: Alignment.center,
             width: double.infinity,
             height: 40,
-            child: const Text(
-              'Thyroid Profile',
+            child: Text(
+              popularLabTests.title,
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
             ),
@@ -68,7 +81,7 @@ class LabTestsCardWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  '₹ 1000',
+                  '${popularLabTests.discountPrice}',
                   style: TextStyle(
                       fontWeight: FontWeight.w800,
                       color: AppColors.primaryColor),
@@ -76,9 +89,9 @@ class LabTestsCardWidget extends StatelessWidget {
                 const SizedBox(
                   width: 6,
                 ),
-                const Text(
-                  '1400',
-                  style: TextStyle(
+                Text(
+                  '${popularLabTests.price}',
+                  style: const TextStyle(
                     decoration: TextDecoration.lineThrough,
                     fontSize: 10,
                   ),
@@ -86,6 +99,7 @@ class LabTestsCardWidget extends StatelessWidget {
               ],
             ),
           ),
+          // Add to cart Button
           Container(
             margin: const EdgeInsets.only(top: 18),
             width: double.infinity,
@@ -96,7 +110,47 @@ class LabTestsCardWidget extends StatelessWidget {
                   width: 140,
                   height: 36,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    // onPressed: () async {
+                    // //   await dbHelper
+                    // //       .insert(PopularLabTests(
+                    // //     title: popularLabTests.title,
+                    // //     discountPrice: popularLabTests.discountPrice,
+                    // //     price: popularLabTests.price,
+                    // //   ))
+                    // //       .then((value) {
+                    // //     cart.addCounter();
+                    // //     print('Product is added to cart');
+                    // //   }).onError((error, stackTrace) {
+                    // //     print(error.toString());
+                    // //   });
+                    // // },
+                    onPressed: () async {
+                      bool primaryKeyExists =
+                          await dbHelper.isTestIdExists(popularLabTests.title);
+                      if (primaryKeyExists) {
+                        Fluttertoast.showToast(
+                            msg: 'This lab test is already exist in cart',
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.black45,
+                            textColor: Colors.white,
+                            fontSize: 10.0);
+                      } else {
+                        await dbHelper
+                            .insert(PopularLabTests(
+                          title: popularLabTests.title,
+                          discountPrice: popularLabTests.discountPrice,
+                          price: popularLabTests.price,
+                        ))
+                            .then((value) {
+                          cart.addCounter();
+                          print('Product is added to cart');
+                        }).onError((error, stackTrace) {
+                          print(error.toString());
+                        });
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryColor,
                       shape: const RoundedRectangleBorder(

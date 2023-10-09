@@ -1,9 +1,15 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:badges/badges.dart' as badges;
+import 'package:hexcolor/hexcolor.dart';
+import 'package:provider/provider.dart';
+
+import 'package:health_checkup_app/presentation/pages/my_cart_screen.dart';
 import 'package:health_checkup_app/presentation/theme/app_colors.dart';
 import 'package:health_checkup_app/presentation/widget/home_screen_widgets/grideview_widget.dart';
 import 'package:health_checkup_app/presentation/widget/home_screen_widgets/listview_widget.dart';
+import 'package:health_checkup_app/provider/cart_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,21 +20,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  int _cartBadgeAmount = 3;
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('Logo'),
         centerTitle: true,
-        actions: [
+        actions: <Widget>[
           Container(
-            margin: EdgeInsets.only(right: 20),
-            child: IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.shopping_cart,
-                  color: AppColors.primaryColor,
-                )),
+            margin: EdgeInsets.only(right: 24),
+            child: _shoppingCartBadge(),
           ),
         ],
       ),
@@ -110,6 +112,41 @@ class _HomeScreenState extends State<HomeScreen> {
           color: AppColors.primaryColor,
           fontSize: 22,
           fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
+
+  Widget _shoppingCartBadge() {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const MyCartScreen(),
+          ),
+        );
+      },
+      child: badges.Badge(
+        showBadge: true,
+        position: badges.BadgePosition.topEnd(top: 0, end: 3),
+        badgeAnimation: const badges.BadgeAnimation.slide(
+          disappearanceFadeAnimationDuration: Duration(milliseconds: 200),
+          curve: Curves.easeInCubic,
+        ),
+        badgeStyle: badges.BadgeStyle(
+          badgeColor: HexColor('#16C2D5'),
+        ),
+        badgeContent: Consumer<CartProvider>(
+          builder: (context, value, child) {
+            return Text(
+              value.getCounter().toString(),
+              style: TextStyle(color: Colors.white),
+            );
+          },
+        ),
+        child: IconButton(
+          icon: Icon(Icons.shopping_cart),
+          onPressed: () {},
         ),
       ),
     );

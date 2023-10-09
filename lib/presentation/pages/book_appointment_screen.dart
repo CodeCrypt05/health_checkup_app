@@ -4,7 +4,7 @@ import 'package:health_checkup_app/presentation/theme/app_colors.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class BookAppointmentScreen extends StatefulWidget {
-  BookAppointmentScreen({super.key});
+  const BookAppointmentScreen({super.key});
 
   @override
   State<BookAppointmentScreen> createState() => _BookAppointmentScreenState();
@@ -38,7 +38,7 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
             child: IconButton(
               onPressed: () {},
               icon: Icon(
-                Icons.more_vert_rounded,
+                Icons.shopping_cart,
                 color: AppColors.primaryColor,
               ),
             ),

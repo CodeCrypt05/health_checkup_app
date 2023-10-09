@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_checkup_app/data/dummy_data.dart';
 import 'package:health_checkup_app/presentation/widget/home_screen_widgets/lab_tests_card_widget.dart';
 
 class GridViewWidget extends StatelessWidget {
@@ -9,15 +10,16 @@ class GridViewWidget extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(left: 20, right: 20),
       child: GridView.builder(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisSpacing: 13,
           mainAxisSpacing: 10,
           crossAxisCount: 2,
           mainAxisExtent: 232,
         ),
-        itemCount: 4,
+        itemCount: popularLabTests.length,
         itemBuilder: (context, index) {
+          final popularTest = popularLabTests[index];
           return GestureDetector(
             onTap: () {},
             child: GridTile(
@@ -32,7 +34,7 @@ class GridViewWidget extends StatelessWidget {
                   color: const Color.fromARGB(255, 255, 255, 255),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: LabTestsCardWidget(),
+                child: LabTestsCardWidget(popularLabTests: popularTest),
               ),
             ),
           );

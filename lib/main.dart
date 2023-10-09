@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:health_checkup_app/presentation/pages/book_appointment_screen.dart';
-import 'package:health_checkup_app/presentation/pages/my_cart_screen.dart';
-import 'package:health_checkup_app/presentation/pages/order_review_screen.dart';
+import 'package:health_checkup_app/presentation/pages/home_screen.dart';
+import 'package:health_checkup_app/provider/cart_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,14 +18,22 @@ class MyApp extends StatelessWidget {
       secondary: Color.fromARGB(255, 255, 255, 255),
       background: Colors.white,
     );
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: customColorScheme,
-        useMaterial3: true,
+
+    return ChangeNotifierProvider(
+      create: (_) => CartProvider(),
+      child: Builder(
+        builder: (BuildContext context) {
+          return MaterialApp(
+            title: 'Flutter Demo',
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              colorScheme: customColorScheme,
+              useMaterial3: true,
+            ),
+            home: HomeScreen(),
+          );
+        },
       ),
-      home: OrderReviewScreen(),
     );
   }
 }

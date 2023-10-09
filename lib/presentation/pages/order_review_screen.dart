@@ -6,7 +6,8 @@ import 'package:hexcolor/hexcolor.dart';
 class OrderReviewScreen extends StatelessWidget {
   OrderReviewScreen({super.key});
 
-  OutlinedBtnStyleWidget outlinedBtnStyleWidget = OutlinedBtnStyleWidget();
+  final OutlinedBtnStyleWidget outlinedBtnStyleWidget =
+      OutlinedBtnStyleWidget();
   int? selectedOption;
 
   @override
@@ -14,10 +15,10 @@ class OrderReviewScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Cart'),
+        title: const Text('My Cart'),
         actions: [
           Container(
-            margin: EdgeInsets.only(right: 20),
+            margin: const EdgeInsets.only(right: 20),
             child: IconButton(
               onPressed: () {},
               icon: Icon(
@@ -51,7 +52,7 @@ class OrderReviewScreen extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: size.height * 0.04,
-      margin: EdgeInsets.only(left: 20, right: 20, top: 14),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 14),
       child: Text(
         'Order review',
         style: TextStyle(
@@ -70,11 +71,11 @@ class OrderReviewScreen extends StatelessWidget {
           color: Colors.grey.shade200,
           width: 1.0,
         ),
-        borderRadius: BorderRadius.all(
+        borderRadius: const BorderRadius.all(
           Radius.circular(6),
         ),
       ),
-      margin: EdgeInsets.only(top: 8, left: 20, right: 20),
+      margin: const EdgeInsets.only(top: 8, left: 20, right: 20),
       height: size.height * 0.24,
       width: double.infinity,
       child: Column(
@@ -100,7 +101,7 @@ class OrderReviewScreen extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 8, left: 24, right: 24),
+            margin: const EdgeInsets.only(top: 8, left: 24, right: 24),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,7 +196,7 @@ class OrderReviewScreen extends StatelessWidget {
           Radius.circular(6),
         ),
       ),
-      margin: EdgeInsets.only(top: 8, left: 20, right: 20),
+      margin: const EdgeInsets.only(top: 8, left: 20, right: 20),
       height: size.height * 0.1,
       width: double.infinity,
       child: Container(
@@ -249,11 +250,11 @@ class OrderReviewScreen extends StatelessWidget {
           Radius.circular(6),
         ),
       ),
-      margin: EdgeInsets.only(top: 8, left: 20, right: 20),
+      margin: const EdgeInsets.only(top: 8, left: 20, right: 20),
       height: size.height * 0.18,
       width: double.infinity,
       child: Container(
-        margin: EdgeInsets.only(top: 16, left: 24, right: 24),
+        margin: const EdgeInsets.only(top: 16, left: 24, right: 24),
         child: Column(
           children: [
             Row(
@@ -393,7 +394,7 @@ class OrderReviewScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Hard copy of reports',
                       style: TextStyle(
                         fontSize: 16,
