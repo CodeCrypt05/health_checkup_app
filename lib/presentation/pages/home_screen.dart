@@ -1,15 +1,14 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:badges/badges.dart' as badges;
-import 'package:hexcolor/hexcolor.dart';
-import 'package:provider/provider.dart';
-
-import 'package:health_checkup_app/presentation/pages/my_cart_screen.dart';
+import 'package:health_checkup_app/presentation/pages/cart_screen.dart';
+import 'package:health_checkup_app/presentation/provider/cart_provider.dart';
 import 'package:health_checkup_app/presentation/theme/app_colors.dart';
 import 'package:health_checkup_app/presentation/widget/home_screen_widgets/grideview_widget.dart';
 import 'package:health_checkup_app/presentation/widget/home_screen_widgets/listview_widget.dart';
-import 'package:health_checkup_app/provider/cart_provider.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:badges/badges.dart' as badges;
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -122,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => const MyCartScreen(),
+            builder: (context) => CartScreen(),
           ),
         );
       },

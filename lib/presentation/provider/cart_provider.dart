@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:health_checkup_app/database/db_helper.dart';
-import 'package:health_checkup_app/models/popular_tests.dart';
+import 'package:health_checkup_app/data/database/db_helper.dart';
+import 'package:health_checkup_app/data/models/popular_tests.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartProvider extends ChangeNotifier {

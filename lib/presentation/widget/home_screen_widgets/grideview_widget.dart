@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:health_checkup_app/data/dummy_data.dart';
+import 'package:health_checkup_app/data/dummy_data/dummy_data.dart';
 import 'package:health_checkup_app/presentation/widget/home_screen_widgets/lab_tests_card_widget.dart';
 
 class GridViewWidget extends StatelessWidget {

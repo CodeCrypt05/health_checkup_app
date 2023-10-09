@@ -1,4 +1,4 @@
-import 'package:health_checkup_app/models/popular_tests.dart';
+import 'package:health_checkup_app/data/models/popular_tests.dart';
 
 const popularLabTests = [
   PopularLabTests(

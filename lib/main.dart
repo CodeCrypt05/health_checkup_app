@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:health_checkup_app/presentation/pages/home_screen.dart';
-import 'package:health_checkup_app/provider/cart_provider.dart';
+import 'package:health_checkup_app/presentation/provider/cart_provider.dart';
+import 'package:health_checkup_app/presentation/provider/popular_tests.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -19,8 +20,15 @@ class MyApp extends StatelessWidget {
       background: Colors.white,
     );
 
-    return ChangeNotifierProvider(
-      create: (_) => CartProvider(),
+    CartProvider cartProvider = CartProvider();
+    PopularLabTestsProvider popularLabTestsProvider = PopularLabTestsProvider();
+
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<CartProvider>.value(value: cartProvider),
+        ChangeNotifierProvider<PopularLabTestsProvider>.value(
+            value: popularLabTestsProvider),
+      ],
       child: Builder(
         builder: (BuildContext context) {
           return MaterialApp(

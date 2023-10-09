@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:health_checkup_app/database/db_helper.dart';
-import 'package:health_checkup_app/models/popular_tests.dart';
+import 'package:health_checkup_app/data/database/db_helper.dart';
+import 'package:health_checkup_app/data/models/popular_tests.dart';
 import 'package:health_checkup_app/presentation/theme/app_colors.dart';
 import 'package:health_checkup_app/presentation/widget/home_screen_widgets/oulined_btn_style_widget.dart';
-import 'package:health_checkup_app/provider/cart_provider.dart';
+import 'package:health_checkup_app/presentation/provider/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 class LabTestsCardWidget extends StatelessWidget {

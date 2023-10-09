@@ -1,21 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:health_checkup_app/data/database/db_helper.dart';
+import 'package:health_checkup_app/presentation/pages/book_appointment_time_screen.dart';
+import 'package:health_checkup_app/presentation/pages/successfully_book_appointment_screen.dart';
+import 'package:health_checkup_app/presentation/provider/cart_provider.dart';
+import 'package:health_checkup_app/presentation/provider/popular_tests.dart';
 import 'package:health_checkup_app/presentation/theme/app_colors.dart';
-import 'package:health_checkup_app/presentation/widget/home_screen_widgets/oulined_btn_style_widget.dart';
+import 'package:health_checkup_app/presentation/widget/my_cart_widgets/pathology_tests_cards_widget.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:provider/provider.dart';
 
-class OrderReviewScreen extends StatelessWidget {
-  OrderReviewScreen({super.key});
+class CartScreen extends StatelessWidget {
+  CartScreen({super.key});
 
-  final OutlinedBtnStyleWidget outlinedBtnStyleWidget =
-      OutlinedBtnStyleWidget();
-  int? selectedOption;
+  DBHelper dbHelper = DBHelper();
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final dateTimeProvider = Provider.of<PopularLabTestsProvider>(context);
+
+    final date = dateTimeProvider.selectedDate.toString();
+    final time = dateTimeProvider.selectedTime.toString();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Cart'),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
+        title: Text('Order Review'),
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 20),
@@ -29,21 +43,25 @@ class OrderReviewScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          order_review(size),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                lab_tests_card(size),
-                date_time_card(size),
-                order_summary_card(size),
-                hard_copy_of_reports(size),
-              ],
-            ),
-          ),
-          schedule_btn(size),
-        ],
+      body: Consumer<CartProvider>(
+        builder: (context, value, child) {
+          if (value.getCounter() == 0) {
+            return _buildEmptyCart(size);
+          } else {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  order_review(size),
+                  lab_tests_card(context),
+                  date_time_card(size, context, date, time),
+                  order_summary_card(size),
+                  hard_copy_of_reports(size),
+                  schedule_btn(size, date, time, context),
+                ],
+              ),
+            );
+          }
+        },
       ),
     );
   }
@@ -64,7 +82,8 @@ class OrderReviewScreen extends StatelessWidget {
     );
   }
 
-  Widget lab_tests_card(Size size) {
+  Widget lab_tests_card(BuildContext context) {
+    final cartList = Provider.of<CartProvider>(context);
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -76,7 +95,6 @@ class OrderReviewScreen extends StatelessWidget {
         ),
       ),
       margin: const EdgeInsets.only(top: 8, left: 20, right: 20),
-      height: size.height * 0.24,
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -100,92 +118,46 @@ class OrderReviewScreen extends StatelessWidget {
                   fontSize: 18),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 8, left: 24, right: 24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Thyroid Profile',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    Text(
-                      '1000/-',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                        color: HexColor('#1BA9B5'),
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  alignment: Alignment.topRight,
-                  child: const Text(
-                    '₹ 1400',
-                    style: TextStyle(decoration: TextDecoration.lineThrough),
-                  ),
-                ),
-                OutlinedButton.icon(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.delete_outline,
-                    size: 18,
-                    color: AppColors.primaryColor,
-                  ),
-                  label: Text(
-                    'Remove',
-                    style: TextStyle(
-                      color: AppColors.primaryColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(
-                      color: AppColors.primaryColor,
-                      width: 2.0,
-                    ),
-                  ),
-                ),
-                OutlinedButton.icon(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.file_upload_outlined,
-                    size: 18,
-                    color: AppColors.primaryColor,
-                  ),
-                  label: Text(
-                    'Upload prescription (optional)',
-                    style: TextStyle(
-                      color: AppColors.primaryColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(
-                      color: AppColors.primaryColor,
-                      width: 2.0,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+
+          // Main Content Start from here
+          FutureBuilder(
+            future: cartList.getData(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        PathologyTestsCardWidget(
+                          index: index,
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(left: 14, right: 14),
+                          child: const Divider(
+                            color: Colors.grey,
+                            thickness: 1,
+                            height: 30,
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                );
+              }
+              return Container();
+            },
           ),
         ],
       ),
     );
   }
 
-  Widget date_time_card(Size size) {
+  Widget date_time_card(
+      Size size, BuildContext context, String date, String time) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -224,10 +196,18 @@ class OrderReviewScreen extends StatelessWidget {
                     width: 1.0,
                   ),
                 ),
-                onPressed: () {},
-                child: const Text(
-                  'Select date',
-                  style: TextStyle(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => BookAppointmentTimeScreen(),
+                    ),
+                  );
+                },
+                child: Text(
+                  date.isEmpty || time.isEmpty
+                      ? 'Select date'
+                      : '$date ($time)',
+                  style: const TextStyle(
                     color: Colors.grey,
                   ),
                 ),
@@ -268,13 +248,22 @@ class OrderReviewScreen extends StatelessWidget {
                     color: HexColor('#475569'),
                   ),
                 ),
-                Text(
-                  '1400',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: HexColor('#475569'),
-                  ),
+                FutureBuilder(
+                  future: dbHelper.sumAllPrices(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final totalPrice = snapshot.data ?? 0.0;
+                      return Text(
+                        totalPrice.toString(),
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: HexColor('#475569'),
+                        ),
+                      );
+                    }
+                    return Container();
+                  },
                 ),
               ],
             ),
@@ -292,13 +281,22 @@ class OrderReviewScreen extends StatelessWidget {
                     color: HexColor('#475569'),
                   ),
                 ),
-                Text(
-                  '400',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: HexColor('#475569'),
-                  ),
+                FutureBuilder(
+                  future: dbHelper.calculateTotalSavings(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final totalSavings = snapshot.data ?? 0.0;
+                      return Text(
+                        totalSavings.toString(),
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: HexColor('#475569'),
+                        ),
+                      );
+                    }
+                    return Container();
+                  },
                 ),
               ],
             ),
@@ -316,13 +314,22 @@ class OrderReviewScreen extends StatelessWidget {
                     color: AppColors.primaryColor,
                   ),
                 ),
-                Text(
-                  '₹ 1000/-',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.primaryColor,
-                  ),
+                FutureBuilder(
+                  future: dbHelper.amountToPaid(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final amountToBePaid = snapshot.data ?? 0.0;
+                      return Text(
+                        amountToBePaid.toString(),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.primaryColor,
+                        ),
+                      );
+                    }
+                    return Container();
+                  },
                 ),
               ],
             ),
@@ -343,13 +350,22 @@ class OrderReviewScreen extends StatelessWidget {
                 const SizedBox(
                   width: 24,
                 ),
-                Text(
-                  '₹ 400/-',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.primaryColor,
-                  ),
+                FutureBuilder(
+                  future: dbHelper.calculateTotalSavings(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final amountToBePaid = snapshot.data ?? 0.0;
+                      Text(
+                        amountToBePaid.toString(),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.primaryColor,
+                        ),
+                      );
+                    }
+                    return Container();
+                  },
                 )
               ],
             ),
@@ -429,15 +445,24 @@ class OrderReviewScreen extends StatelessWidget {
     );
   }
 
-  Widget schedule_btn(Size size) {
+  Widget schedule_btn(
+      Size size, String date, String time, BuildContext context) {
     return Container(
       width: double.infinity,
       height: size.height * 0.06,
-      margin: EdgeInsets.only(top: 16, left: 20, right: 20),
+      margin: const EdgeInsets.only(top: 16, left: 20, right: 20, bottom: 20),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const SuccessfullyBookAppointment(),
+            ),
+          );
+        },
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromRGBO(69, 69, 202, 1),
+          backgroundColor: date.isNotEmpty && time.isNotEmpty
+              ? AppColors.primaryColor
+              : Colors.grey,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(16))),
         ),
@@ -445,6 +470,34 @@ class OrderReviewScreen extends StatelessWidget {
           'Schedule',
           style: TextStyle(fontSize: 18),
         ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyCart(Size size) {
+    return Container(
+      height: size.height * 0.99,
+      width: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            height: 200,
+            width: 200,
+            child: Image.asset('assets/icons/empty_cart.png'),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          const Text(
+            'Nothing is in Your Cart.',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+            ),
+          )
+        ],
       ),
     );
   }
