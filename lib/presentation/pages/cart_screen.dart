@@ -261,6 +261,7 @@ class CartScreen extends StatelessWidget {
                           color: HexColor('#475569'),
                         ),
                       );
+                      
                     }
                     return Container();
                   },
