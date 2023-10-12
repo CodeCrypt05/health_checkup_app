@@ -2,15 +2,15 @@
 
 A new Flutter project.
 
-## Getting Started
+## ScreenShots
 
-This project is a starting point for a Flutter application.
+<img src = "https://github.com/CodeCrypt05/health_checkup_app/assets/61696855/3dc593f0-1868-4408-9335-850fbc575e36.png" width="200" height = "400" >
+<img src = "https://github.com/CodeCrypt05/health_checkup_app/assets/61696855/0bc11ae0-8c35-477c-b895-f55126063f60.png" width="200" height = "400" >
+<img src = "https://github.com/CodeCrypt05/health_checkup_app/assets/61696855/fe775eca-ba9b-43ca-932f-5e2523cf597b.png" width="200" height = "400" >
+<img src = "https://github.com/CodeCrypt05/health_checkup_app/assets/61696855/d8e22964-8a68-44f8-8862-a0129faa0047.png" width="200" height = "400" >
+<img src = "https://github.com/CodeCrypt05/health_checkup_app/assets/61696855/e3b3e71b-2f68-4845-b02f-d20c787649b4.png" width="200" height = "400" >
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
